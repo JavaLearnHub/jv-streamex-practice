@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.konstde00'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compileOnly "org.projectlombok:lombok:1.18.30"
+    annotationProcessor "org.projectlombok:lombok:1.18.30"
+
+    implementation group: 'one.util', name: 'streamex', version: '0.7.3'
+
+    testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
