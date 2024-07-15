@@ -1,9 +1,10 @@
 package org.konstde00.practice;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import one.util.streamex.EntryStream;
+import one.util.streamex.IntStreamEx;
 import one.util.streamex.StreamEx;
 
 import org.konstde00.model.Person;
@@ -17,7 +18,10 @@ public class StreamExPractice {
      * Use `EntryStream.mapValues()`.
      */
     public Map<String, Integer> incrementMapValues(Map<String, Integer> map) {
-        return Map.of();
+
+        return EntryStream.of(map)
+                .mapValues(v -> v += 1)
+                .toMap();
     }
 
     /**
@@ -25,7 +29,9 @@ public class StreamExPractice {
      * Group persons by age using `StreamEx.groupingBy()`.
      */
     public Map<Integer, List<Person>> groupByAge(List<Person> people) {
-        return Map.of();
+
+        return StreamEx.of(people)
+                .groupingBy(Person::getAge);
     }
 
     /**
@@ -33,21 +39,30 @@ public class StreamExPractice {
      * Use `StreamEx.map()`.
      */
     public List<Integer> mapToAges(List<Person> people) {
-        return List.of();
+
+        return StreamEx.of(people)
+                .map(Person::getAge)
+                .toList();
     }
 
     /**
      * Given a list of strings, return a list of their lengths.
      */
     public List<Integer> mapToLengths(List<String> strings) {
-        return List.of();
+
+        return StreamEx.of(strings)
+                .map(String::length)
+                .toList();
     }
 
     /**
      * Given a list of integers, return a list of their squares.
      */
     public List<Integer> mapToSquares(List<Integer> numbers) {
-        return List.of();
+
+        return StreamEx.of(numbers)
+                .map(x -> (int) Math.pow(x, 2))
+                .toList();
     }
 
     // ----------- Sorting -----------
@@ -57,7 +72,10 @@ public class StreamExPractice {
      * Use `StreamEx.reverseSorted()`.
      */
     public List<String> sortInReverseOrder(List<String> strings) {
-        return List.of();
+
+        return StreamEx.of(strings)
+                .reverseSorted()
+                .toList();
     }
 
     /**
@@ -65,7 +83,10 @@ public class StreamExPractice {
      * Use `StreamEx.sortedBy()`.
      */
     public List<Person> sortByAge(List<Person> people) {
-        return List.of();
+
+        return StreamEx.of(people)
+                .sortedBy(Person::getAge)
+                .toList();
     }
 
     /**
@@ -73,14 +94,20 @@ public class StreamExPractice {
      * Use `StreamEx.sortedByInt()`.
      */
     public List<Integer> sortByAbsoluteValue(List<Integer> numbers) {
-        return List.of();
+
+        return StreamEx.of(numbers)
+                .sortedByInt(Math::abs)
+                .toList();
     }
 
     /**
      * Given a list of strings, return a list of strings sorted by their lengths.
      */
     public List<String> sortByLength(List<String> strings) {
-        return List.of();
+
+        return StreamEx.of(strings)
+                .sortedByInt(String::length)
+                .toList();
     }
 
     // ----------- Reduction -----------
@@ -90,7 +117,10 @@ public class StreamExPractice {
      * Use `StreamEx.reduce()`.
      */
     public int sumOfIntegers(List<Integer> numbers) {
-        return 0;
+
+        return StreamEx.of(numbers)
+                .reduce(Integer::sum)
+                .orElse(0);
     }
 
     /**
@@ -98,7 +128,10 @@ public class StreamExPractice {
      * Use `StreamEx.prefix()`.
      */
     public List<Integer> cumulativeSum(List<Integer> numbers) {
-        return List.of();
+
+        return StreamEx.of(numbers)
+                .prefix(Integer::sum)
+                .toList();
     }
 
     /**
@@ -106,7 +139,11 @@ public class StreamExPractice {
      * Use `StreamEx.split()` and `StreamEx.groupingBy()`.
      */
     public Map<Character, Long> charCount(String input) {
-        return Map.of();
+
+        return StreamEx
+                .split(input, "")
+                .map(s -> s.charAt(0))
+                .groupingBy(c -> c, Collectors.counting());
     }
 
     /**
@@ -114,7 +151,9 @@ public class StreamExPractice {
      * Use `StreamEx.max()`.
      */
     public Optional<Integer> findMaxValue(List<Integer> numbers) {
-        return Optional.empty();
+
+        return StreamEx.of(numbers)
+                .max(Comparator.naturalOrder());
     }
 
     /**
@@ -122,7 +161,9 @@ public class StreamExPractice {
      * Use `StreamEx.joining()`.
      */
     public String concatenateStrings(List<String> strings) {
-        return "";
+
+        return StreamEx.of(strings)
+                .joining();
     }
 
     // ----------- Transformation -----------
@@ -132,7 +173,10 @@ public class StreamExPractice {
      * Use `StreamEx.map()` and `StreamEx.toSet()`.
      */
     public Set<String> uniqueNames(List<Person> people) {
-        return Set.of();
+
+        return StreamEx.of(people)
+                .map(Person::getName)
+                .toSet();
     }
 
     // ----------- EntryStream operations -----------
@@ -142,7 +186,10 @@ public class StreamExPractice {
      * Use `EntryStream.invert()`.
      */
     public Map<String, Integer> invertMap(Map<Integer, String> map) {
-        return Map.of();
+
+        return EntryStream.of(map)
+                .invert()
+                .toMap();
     }
 
     /**
@@ -150,7 +197,10 @@ public class StreamExPractice {
      * Use `EntryStream.keys()`.
      */
     public List<String> extractKeys(Map<String, Integer> map) {
-        return List.of();
+
+        return EntryStream.of(map)
+                .keys()
+                .toList();
     }
 
     /**
@@ -158,7 +208,10 @@ public class StreamExPractice {
      * Use `EntryStream.values()`.
      */
     public List<Integer> extractValues(Map<String, Integer> map) {
-        return List.of();
+
+        return EntryStream.of(map)
+                .values()
+                .toList();
     }
 
     /**
@@ -166,7 +219,10 @@ public class StreamExPractice {
      * Use `EntryStream.join()`.
      */
     public List<String> convertEntriesToString(Map<String, Integer> map) {
-        return List.of();
+
+        return EntryStream.of(map)
+                .join("=")
+                .toList();
     }
 
     // ----------- Flat-mapping -----------
@@ -176,7 +232,10 @@ public class StreamExPractice {
      * Use `IntStreamEx.flatMapToObj()`.
      */
     public List<String> flatMapToString(List<Integer> numbers) {
-        return List.of();
+
+        return IntStreamEx.of(numbers)
+                .mapToObj(String::valueOf)
+                .toList();
     }
 
     /**
@@ -184,7 +243,10 @@ public class StreamExPractice {
      * Use `StreamEx.cross()`.
      */
     public List<Map.Entry<Integer, String>> crossProduct(List<Integer> numbers, String[] strings) {
-        return List.of();
+
+        return StreamEx.of(numbers)
+                .cross(strings)
+                .toList();
     }
 
     /**
@@ -192,7 +254,10 @@ public class StreamExPractice {
      * Use `StreamEx.flatMap()`.
      */
     public List<Integer> flattenListOfLists(List<List<Integer>> listOfLists) {
-        return List.of();
+
+        return StreamEx.of(listOfLists)
+                .flatMap(List::stream)
+                .toList();
     }
 
     /**
@@ -200,6 +265,11 @@ public class StreamExPractice {
      * Use `EntryStream.flatMapKeyValue()`.
      */
     public List<Map.Entry<Integer, String>> flatMapKeyValue(Map<Integer, List<String>> map) {
-        return List.of();
+
+        return EntryStream.of(map)
+                .flatMapKeyValue((key, values) ->
+                        StreamEx.of(values)
+                                .map(value -> Map.entry(key, value)))
+                .toList();
     }
 }
